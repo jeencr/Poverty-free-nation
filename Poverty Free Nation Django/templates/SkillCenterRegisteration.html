@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Skill Center Registration</title>
+</head>
+<body>
+    <h2>Skill Center Registration</h2>
+
+    <form method="POST" action="/myapp/skill_center_register_post/" enctype="multipart/form-data">
+
+        <label for="name">Name:</label><br>
+        <input type="text" id="name" name="name" required><br><br>
+
+        <label for="address">Address:</label><br>
+        <textarea id="address" name="address" rows="3" required></textarea><br><br>
+
+        <label for="phone">Phone:</label><br>
+        <input type="text" id="phone" name="phone" required><br><br>
+
+        <label for="email">Email:</label><br>
+        <input type="email" id="email" name="email" required><br><br>
+
+        <label for="photo">Photo:</label><br>
+        <input type="file" id="photo" name="photo" accept="image/*"><br><br>
+
+        <hr>
+
+        <label for="username">Username (for login):</label><br>
+        <input type="text" id="username" name="username" required><br><br>
+
+        <label for="password">Password (for login):</label><br>
+        <input type="password" id="password" name="password" required><br><br>
+
+        <input type="submit" value="Register Skill Center">
+    </form>
+</body>
+</html>
