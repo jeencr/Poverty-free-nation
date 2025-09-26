@@ -26,6 +26,8 @@ urlpatterns = [
     path('view_company_home/',views.view_company_home),
     path('view_skill_center_home/',views.view_skill_center_home),
     path('login_post/',views.login_post),
+    path('skill_center_register_post/',views.skill_center_register_post),
+    path('view_skill_center_register/',views.view_skill_center_register),
 
 
 

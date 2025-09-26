@@ -1,4 +1,5 @@
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.models import Group
 from django.shortcuts import render, redirect
 from myapp.models import *
 
@@ -54,6 +55,7 @@ def skill_center_register_post(request):
         if User.objects.filter(username=username).exists():
             return render(request, 'SkillCenterRegisteration.html', {'error': 'Username already exists.'})
         user = User.objects.create_user(username=username, password=password)
+        user.groups.add(Group.objects.get(name='skillcenter'))
         skill_center = SkillCenterProfile(name=name,    address=address,  phone=phone,
                                           approval_status='pending',  email=email,   photo=photo,
                                           LOGIN_id=user.id )
