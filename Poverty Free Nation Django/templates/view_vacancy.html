@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>View Vacancy</title>
+</head>
+<body>
+
+<h2>Vacancies</h2>
+
+<table border="1" cellspacing="0" cellpadding="8">
+    <tr>
+        <th>Title</th>
+        <th>Description</th>
+        <th>Requirements</th>
+        <th>Status</th>
+        <th>Edit</th>
+        <th>View Applicants</th>
+    </tr>
+    {% for i in vacancies %}
+    <tr>
+        <td>{{ i.title }}</td>
+        <td>{{ i.description }}</td>
+        <td>{{ i.requirements }}</td>
+        <td>{{ i.status }}</td>
+        <td><a href="/myapp/edit_vacancy_get/{{ i.id }}">Edit</a></td>
+        <td><a href=""></a></td>
+
+    </tr>
+    {% endfor %}
+</table>
+
+{% if messages %}
+    {% for message in messages %}
+        <p style="color: green;">{{ message }}</p>
+    {% endfor %}
+{% endif %}
+
+</body>
+</html>

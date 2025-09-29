@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Profile</title>
+</head>
+<body>
+
+<h2>User Profile</h2>
+
+<p><strong>Name:</strong> {{ skill_center.name }}</p>
+<p><strong>Address:</strong> {{ skill_center.address }}</p>
+<p><strong>Phone:</strong> {{ skill_center.phone }}</p>
+<p><strong>Email:</strong> {{ skill_center.email }}</p>
+<p><strong>Photo:</strong><br>
+    <img src="/media/{{ skill_center.photo }}" alt="Profile Photo" width="120" height="120">
+</p>
+<a href="/myapp/change_password_skill_get/"><input type="submit" value="Change Password"></a>
+<a href="/myapp/edit_profile_skill_get">
+<input type="submit" value="Edit profile"></a>
+
+ {% if messages %}
+        {% for message in messages %}
+            <p style="color: green;">{{ message }}</p>
+        {% endfor %}
+    {% endif %}
+
+</body>
+</html>

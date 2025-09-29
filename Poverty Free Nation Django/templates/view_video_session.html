@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>View Video Sessions</title>
+</head>
+<body>
+
+<h2>Video Sessions for Program</h2>
+
+<table border="1" cellspacing="0" cellpadding="8">
+    <tr>
+        <th>Title</th>
+        <th>Video</th>
+        <th>Uploaded At</th>
+        <th>Delete</th>
+    </tr>
+
+    {% for video in program_videos %}
+    <tr>
+        <td>{{ video.title }}</td>
+        <td>
+            <video width="320" height="240" controls>
+                <source src="{{ video.video.url }}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </td>
+        <td>{{ video.uploaded_at }}</td>
+        <td><a href="/myapp/delete_video_session/{{ video.id }}">Delete</a></td>
+    </tr>
+    {% empty %}
+    <tr>
+        <td colspan="3">No video sessions available.</td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% if messages %}
+    {% for message in messages %}
+        <p style="color: green;">{{ message }}</p>
+    {% endfor %}
+{% endif %}
+
+</body>
+</html>

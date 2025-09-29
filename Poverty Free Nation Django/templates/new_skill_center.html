@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>new_skill_center</title>
+</head>
+<body>
+<h2>new_skill_center</h2>
+
+<table border="1" cellpadding="8">
+    <tr>
+        <th>Name</th>
+        <th>Address</th>
+        <th>Phone</th>
+        <th>Approval Status</th>
+        <th>Email</th>
+        <th>Photo</th>
+        <th>Accept/Reject</th>
+    </tr>
+
+    {% for i in skill_centers %}
+    <tr>
+        <td>{{ i.name }}</td>
+        <td>{{ i.address }}</td>
+        <td>{{ i.phone }}</td>
+        <td>{{ i.approval_status }}</td>
+        <td>{{ i.email }}</td>
+        <td>
+            {% if i.photo %}
+                <img src="{{ i.photo.url }}" alt="Photo" width="80" height="80">
+            {% else %}
+                No Photo
+            {% endif %}
+        </td>
+        <td><a href="/myapp/accept_skill_center/{{ i.id }}">accept_skill_center</a><br><a href="/myapp/reject_skill_center/{{ i.id }}">reject_skill_center</a></td>
+    </tr>
+    {% endfor %}
+</table>
+
+    {% if messages %}
+        {% for message in messages %}
+            <p style="color: green;">{{ message }}</p>
+        {% endfor %}
+    {% endif %}
+</body>
+</html>

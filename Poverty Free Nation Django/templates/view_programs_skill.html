@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>View Program Skill Center</title>
+</head>
+<body>
+
+<h2>Programs</h2>
+
+<table border="1" cellspacing="0" cellpadding="8">
+    <tr>
+        <th>Title</th>
+        <th>Description</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+        <th>Skill Center</th>
+        <th>Edit</th>
+        <th>Add video session</th>
+        <th>Google Meet Session</th>
+        <th>Review</th>
+    </tr>
+    {% for i in programs %}
+    <tr>
+        <td>{{ i.title }}</td>
+        <td>{{ i.description }}</td>
+        <td>{{ i.start_date }}</td>
+        <td>{{ i.end_date }}</td>
+        <td>{{ i.skill_center.name }}</td>
+        <td><a href="/myapp/edit_program_skill_get/{{ i.id }}">Edit</a>
+                <a href="/myapp/delete_program_skill/{{ i.id }}">delete</a>
+</td>
+    <td><a href="/myapp/add_video_session/{{ i.id }}">Add video session</a><br><a href="/myapp/view_video_session/{{ i.id }}">View video session</a></td>
+    <td><a href="/myapp/add_google_session_get/{{ i.id }}">Add google meet session</a><br><a href="/myapp/view_google_session/{{ i.id }}">View google meet session</a></td>
+    <td><a href="/myapp/review_program_get/{{ i.id }}">Review</a></td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% if messages %}
+    {% for message in messages %}
+        <p style="color: green;">{{ message }}</p>
+    {% endfor %}
+{% endif %}
+
+</body>
+</html>

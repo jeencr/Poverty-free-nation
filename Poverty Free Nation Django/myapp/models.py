@@ -24,6 +24,8 @@ class CompanyProfile(models.Model):
     address = models.TextField()
     phone = models.CharField(max_length=15, blank=True, null=True)
     approval_status = models.CharField(max_length=15, default='pending')
+    email = models.CharField(max_length=100)
+    photo = models.ImageField()
 
 
 class NormalUser(models.Model):
@@ -37,7 +39,7 @@ class NormalUser(models.Model):
 
 class Resume(models.Model):
     NormalUser = models.ForeignKey(NormalUser, on_delete=models.CASCADE)
-    resume = models.FileField()
+    resume = models.FileField(upload_to='resumes/')
 
 
 class Program(models.Model):
@@ -139,3 +141,8 @@ class Notification(models.Model):
     Vacancy = models.ForeignKey(Vacancy, on_delete=models.CASCADE)
     read_status = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
+
+class PublishedResults (models.Model):
+    Vacancy = models.ForeignKey(Vacancy, on_delete=models.CASCADE)
+    NormalUser = models.ForeignKey(NormalUser, on_delete=models.CASCADE)
+

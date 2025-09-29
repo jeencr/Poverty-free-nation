@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Programs</title>
+</head>
+<body>
+
+<h2>Add Programs</h2>
+
+<form method="post" action="/myapp/add_program_post/">
+    {% csrf_token %}
+
+    <p>
+        <label><strong>Title:</strong></label><br>
+        <input type="text" name="title" required>
+    </p>
+
+    <p>
+        <label><strong>Description:</strong></label><br>
+        <textarea name="description" rows="4" cols="40" required></textarea>
+    </p>
+
+    <p>
+        <label><strong>Start Date:</strong></label><br>
+        <input type="date" name="start_date" required>
+    </p>
+
+    <p>
+        <label><strong>End Date:</strong></label><br>
+        <input type="date" name="end_date" required>
+    </p>
+
+    <p>
+        <input type="submit" value="Add Program">
+    </p>
+</form>
+    {% if messages %}
+        {% for message in messages %}
+            <p style="color: green;">{{ message }}</p>
+        {% endfor %}
+    {% endif %}
+</body>
+</html>

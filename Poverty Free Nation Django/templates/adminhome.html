@@ -6,5 +6,25 @@
 </head>
 <body>
 <h2>admin home</h2>
+<a href="/myapp/view_new_skill_center">view_new_skill_center</a><br>
+<a href="/myapp/view_rejected_skill_centers/">view_rejected_skill_centers</a><br>
+<a href="/myapp/view_approved_skill_centers/">view_approved_skill_centers</a><br>
+<a href="/myapp/view_new_company">view_new_company</a><br>
+<a href="/myapp/view_rejected_company/">view_rejected_company</a><br>
+<a href="/myapp/view_approved_company/">view_approved_company</a><br>
+<a href="/myapp/view_vacancies_admin/">view_vacancies_admin</a><br>
+<a href="/myapp/get_programs/">get_programs</a><br>
+<a href="/myapp/view_app_review/">view_app_review</a><br>
+<a href="/myapp/view_compliant/">view_compliant</a><br>
+
+
+
+
+
+    {% if messages %}
+        {% for message in messages %}
+            <p style="color: green;">{{ message }}</p>
+        {% endfor %}
+    {% endif %}
 </body>
 </html>

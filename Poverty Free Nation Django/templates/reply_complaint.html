@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Reply to Complaint</title>
+</head>
+<body>
+
+<h2>Reply to Complaint</h2>
+
+<form method="post" action="/myapp/reply_complaint/">
+    {% csrf_token %}
+
+    <p><strong>Complaint:</strong> {{ complaints.complaint_text }}</p>
+    <p><strong>User:</strong> {{ complaint.NormalUser.name }}</p>
+
+    <label for="reply_text">Reply:</label><br>
+    <textarea name="reply_text" id="reply_text" rows="4" cols="50">{{ complaints.reply_text }}</textarea><br><br>
+
+    <button type="submit">Submit Reply</button>
+</form>
+
+</body>
+</html>

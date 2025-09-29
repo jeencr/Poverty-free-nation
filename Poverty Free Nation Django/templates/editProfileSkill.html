@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Profile</title>
+</head>
+<body>
+
+<h2>Edit Profile</h2>
+
+<form method="post" enctype="multipart/form-data" action="/myapp/edit_profile_skill_post">
+    {% csrf_token %}
+
+    <p>
+        <label><strong>Name:</strong></label><br>
+        <input type="text" name="name" value="{{ skill_center.name }}">
+    </p>
+
+    <p>
+        <label><strong>Address:</strong></label><br>
+        <input type="text" name="address" value="{{ skill_center.address }}">
+    </p>
+
+    <p>
+        <label><strong>Phone:</strong></label><br>
+        <input type="text" name="phone" value="{{ skill_center.phone }}">
+    </p>
+
+    <p>
+        <label><strong>Email:</strong></label><br>
+        <input type="email" name="email" value="{{ skill_center.email }}">
+    </p>
+
+    <p>
+        <label><strong>Photo:</strong></label><br>
+        <input type="file" name="photo"><br>
+        <img src="/media/{{ skill_center.photo }}" alt="Profile Photo" width="120" height="120">
+    </p>
+
+    <p>
+        <input type="submit" value="Update Profile">
+    </p>
+</form>
+
+</body>
+</html>

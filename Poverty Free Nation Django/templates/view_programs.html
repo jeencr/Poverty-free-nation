@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>view_programs</title>
+</head>
+<body>
+<h2>view_programs</h2>
+{% for i in skill_centers %}
+    <a href="/myapp/filter_programs/{{ i.id }}"><button>{{ i.name }}</button></a>
+
+{% endfor %}
+
+</body>
+</html>

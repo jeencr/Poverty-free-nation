@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>View App Reviews</title>
+</head>
+<body>
+<h2>App Reviews</h2>
+
+<table border="1" cellpadding="8">
+    <tr>
+        <th>Rating</th>
+        <th>Review</th>
+        <th>Date</th>
+        <th>Applicant Name</th>
+    </tr>
+
+    {% for i in reviews %}
+    <tr>
+        <td>{{ i.rating }}</td>
+        <td>{{ i.review }}</td>
+        <td>{{ i.date }}</td>
+        <td>{{ i.NormalUser.name }}</td>
+    </tr>
+    {% empty %}
+    <tr>
+        <td colspan="4">No reviews available.</td>
+    </tr>
+    {% endfor %}
+</table>
+
+</body>
+</html>

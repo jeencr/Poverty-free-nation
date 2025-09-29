@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Google Meet Session</title>
+</head>
+<body>
+
+<h2>Add Google Meet Session</h2>
+
+<!-- Display Program Details -->
+<h3>Program Details</h3>
+<p><strong>Title:</strong> {{ program.title }}</p>
+<p><strong>Description:</strong> {{ program.description }}</p>
+<p><strong>Start Date:</strong> {{ program.start_date }}</p>
+<p><strong>End Date:</strong> {{ program.end_date }}</p>
+
+<!-- Form to add Google Meet Session -->
+<form method="post" action="/myapp/add_google_session_post/{{program.id}}">
+    {% csrf_token %}
+
+    <p>
+        <label><strong>Google Meet Link:</strong></label><br>
+        <input type="url" name="google_meet_link" required>
+    </p>
+
+    <p>
+        <label><strong>Date:</strong></label><br>
+        <input type="date" name="date" required>
+    </p>
+
+    <p>
+        <label><strong>Start Time:</strong></label><br>
+        <input type="time" name="start_time" required>
+    </p>
+
+    <p>
+        <label><strong>End Time:</strong></label><br>
+        <input type="time" name="end_time" required>
+    </p>
+
+    <p>
+        <input type="submit" value="Add Google Meet Session">
+    </p>
+</form>
+
+{% if messages %}
+    {% for message in messages %}
+        <p style="color: green;">{{ message }}</p>
+    {% endfor %}
+{% endif %}
+
+</body>
+</html>

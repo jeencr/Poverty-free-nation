@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Vacancy</title>
+</head>
+<body>
+
+<h2>Edit Vacancy</h2>
+
+<form method="post" action="/myapp/edit_vacancy_post/{{ vacancy.id }}">
+    {% csrf_token %}
+    <label for="title">Title:</label><br>
+    <input type="text" id="title" name="title" value="{{ vacancy.title }}" required><br><br>
+
+    <label for="description">Description:</label><br>
+    <textarea id="description" name="description" rows="4" cols="50" required>{{ vacancy.description }}</textarea><br><br>
+
+    <label for="requirements">Requirements:</label><br>
+    <textarea id="requirements" name="requirements" rows="4" cols="50" required>{{ vacancy.requirements }}</textarea><br><br>
+
+    <label for="status">Status:</label><br>
+    <select id="status" name="status" required>
+        <option value="Open" {% if vacancy.status == "Open" %}selected{% endif %}>Open</option>
+        <option value="Closed" {% if vacancy.status == "Closed" %}selected{% endif %}>Closed</option>
+    </select><br><br>
+
+    <button type="submit">Update Vacancy</button>
+</form>
+
+</body>
+</html>

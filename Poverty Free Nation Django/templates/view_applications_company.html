@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>View Applications</title>
+</head>
+<body>
+
+<h2>Applications Received</h2>
+
+<table border="1" cellpadding="8" cellspacing="0">
+    <thead>
+        <tr>
+                        <th>Vacancy</th>
+
+            <th>Applied At</th>
+            <th>Applicant</th>
+                        <th>Status</th>
+
+            <th>Resume</th>
+            <th>Accept/Reject</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for application in applications %}
+        <tr>
+            <td>{{ application.status }}</td>
+            <td>{{ application.applied_at }}</td>
+            <td>{{ application.NormalUser_id.username }}</td>
+            <td>
+                <a href="{{ application.Resume.resume.url }}" target="_blank">View Resume</a>
+            </td>
+            <td>{{ application.vacancy_id.title }}</td>
+            <td><a href="/myapp/accept_application/{{ application.id }}">Accept</a> | <a href="/myapp/reject_application/{{ application.id }}">Reject</a></td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="5">No applications found.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+</body>
+</html>
