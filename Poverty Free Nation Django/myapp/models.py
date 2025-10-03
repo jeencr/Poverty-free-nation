@@ -34,7 +34,14 @@ class NormalUser(models.Model):
     phone = models.CharField(max_length=15, blank=True, null=True)
     email = models.CharField(max_length=100)
     address = models.TextField(blank=True, null=True)
-    
+    photo = models.ImageField()
+    qualification = models.CharField(max_length=100)
+    experience = models.CharField(max_length=100)
+    skills = models.CharField(max_length=100)
+    gender = models.CharField(max_length=100)
+    dob = models.DateField()
+
+
     
 
 class Resume(models.Model):

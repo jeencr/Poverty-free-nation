@@ -4,6 +4,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.hashers import check_password
 from django.contrib.auth.models import Group
+from django.http import JsonResponse, response
 from django.shortcuts import render, redirect
 from myapp.models import *
 
@@ -450,3 +451,192 @@ def reject_application(request,id):
     application.save()
     messages.success(request, 'Application Rejected Successfully.')
     return redirect('/myapp/view_applications_company')
+
+def register_user_post(request):
+    name = request.POST['name']
+    email = request.POST['email']
+    address = request.POST['address']
+    phone = request.POST['phone']
+    photo=request.FILES['photo']
+    qualification=request.POST['qualification']
+    skills=request.POST['skills']
+    gender=request.POST['gender']
+    dob_str = request.POST['dob']
+    dob = datetime.strptime(dob_str, "%d/%m/%Y").date()
+    experience=request.POST['experience']
+    username = request.POST['username']
+    password = request.POST['password']
+    if User.objects.filter(username=username).exists():
+        return JsonResponse({'error': 'Username already exists.'})
+    user = User.objects.create_user(username=username, password=password)
+    user.groups.add(Group.objects.get(name='normaluser'))
+    user.save()
+    normaluser = NormalUser(full_name=name, email=email, address=address, phone=phone, photo=photo,
+                            qualification=qualification, skills=skills, gender=gender,
+                            dob=dob, experience=experience, LOGIN_id=user.id)
+    normaluser.save()
+    return JsonResponse({'success': 'User Registered Successfully.'})
+
+def loginapp(request):
+    uname = request.POST['uname']
+    upass = request.POST['pwd']
+    print(uname, upass, 'jhvghh')
+
+    user = authenticate(request, username=uname, password=upass)
+    print(user, 'jhh')
+
+    if user is not None:
+        print('sldcn')
+
+        # Normal user login
+        if user.groups.filter(name='normaluser').exists():
+            login_id = user.id
+            user_id = NormalUser.objects.get(LOGIN_id=login_id).id
+            response = {
+                'message': 'Login Successful.',
+                'user_id': user_id,
+                'login_id': login_id,
+                'user_type': 'normaluser'
+            }
+            print(response, 'response')
+            return JsonResponse(response)
+
+
+
+        # Fallback: no recognized group
+        return JsonResponse({'message': ''})
+
+    else:
+        print('else')
+        return JsonResponse({'message': 'Invalid username or password.'})
+
+def user_data_get(request):
+    user_id = request.POST['uid']
+    user_info = NormalUser.objects.get(id=user_id)
+    print(user_info)
+    data = {
+        'id': user_info.id,
+        'name': user_info.full_name,
+        'email': user_info.email,
+        'photo': str(user_info.photo),  # assuming ImageField or FileField
+        # add other fields as needed
+    }
+    return JsonResponse({'data': data})
+
+def view_user_profile(request):
+    user_id = request.POST['uid']
+    user_info = NormalUser.objects.get(id=user_id)
+    user_profile = {
+        'id': user_info.id,
+        'name': user_info.full_name,
+        'email': user_info.email,
+        'address': user_info.address,
+        'phone': user_info.phone,
+        'photo': str(user_info.photo),
+        'qualification': user_info.qualification,
+        'skills': user_info.skills,
+        'gender': user_info.gender,
+        'dob': user_info.dob,
+        'experience': user_info.experience,
+
+    }
+    return JsonResponse({'user_profile':user_profile})
+
+def edit_user_profile_get(request):
+    user_id = request.POST['uid']
+    user_info = NormalUser.objects.get(id=user_id)
+    user_profile = {
+        'id': user_info.id,
+        'name': user_info.full_name,
+        'email': user_info.email,
+        'address': user_info.address,
+        'phone': user_info.phone,
+        'photo': str(user_info.photo),
+        'qualification': user_info.qualification,
+        'skills': user_info.skills,
+        'gender': user_info.gender,
+        'dob': user_info.dob,
+        'experience': user_info.experience,
+    }
+    return JsonResponse({'user_profile':user_profile})
+
+def update_user_profile_post(request):
+    user_id = request.POST['uid']
+    user_info = NormalUser.objects.get(id=user_id)
+    user_info.full_name = request.POST['name']
+    user_info.email = request.POST['email']
+    user_info.address = request.POST['address']
+    user_info.phone = request.POST['phone']
+    user_info.qualification = request.POST['qualification']
+    user_info.skills = request.POST['skills']
+    user_info.gender = request.POST['gender']
+    user_info.dob = request.POST['dob']
+    user_info.experience = request.POST['experience']
+    if 'photo' in request.FILES:
+        user_info.photo = request.FILES['photo']
+    user_info.save()
+    return JsonResponse({'success': 'User Profile Updated Successfully.'})
+
+def change_password_user(request):
+    uid = request.POST['uid']
+    old_password = request.POST['old_password']
+    new_password = request.POST['new_password']
+
+    try:
+        valet = NormalUser.objects.get(id=uid)
+        user = User.objects.get(id=valet.LOGIN_id)
+
+        if not user.check_password(old_password):
+            return JsonResponse({'status': 'error', 'message': 'Old password is incorrect'})
+
+        user.set_password(new_password)
+        user.save()
+        return JsonResponse({'status': 'success', 'message': 'Password changed successfully'})
+
+    except NormalUser.DoesNotExist:
+        return JsonResponse({'status': 'error', 'message': 'Valet not found'})
+    except User.DoesNotExist:
+        return JsonResponse({'status': 'error', 'message': 'User not found'})
+    except Exception as e:
+        return JsonResponse({'status': 'error', 'message': f'An error occurred: {str(e)}'})
+
+
+
+def get_reviews_user(request):
+    reviews = AppReview.objects.filter(NormalUser_id=request.POST['uid'])
+    data = [
+        {
+            "user_name": r.NormalUser.full_name,
+            "rating": r.rating,
+            "review": r.review,
+        } for r in reviews
+    ]
+    return JsonResponse(data, safe=False)
+
+def add_review_user(request):
+    if request.method == "POST":
+        user_id = request.POST['uid']
+        rating = request.POST['rating']
+        review = request.POST['review']
+
+        AppReview.objects.create(
+            NormalUser_id=user_id,
+            rating=rating,
+            review=review
+        )
+        return JsonResponse({"success": True})
+
+def get_complaints_user(request):
+    complaints = Complaint.objects.filter(NormalUser_id=request.POST['uid']).values()
+    print(complaints)
+    return JsonResponse(list(complaints), safe=False)
+
+def add_complaint_user(request):
+    complaint_text = request.POST['complaint_text']
+    NormalUser_id = request.POST['uid']
+    Complaint.objects.create(
+        NormalUser_id=NormalUser_id,
+        complaint_text=complaint_text,
+        status='pending'
+    )
+

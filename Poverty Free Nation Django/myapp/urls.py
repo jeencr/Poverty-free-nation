@@ -80,5 +80,16 @@ urlpatterns = [
     path('view_applications_company/',views.view_applications_company),
     path('reject_application/',views.reject_application),
     path('accept_application/', views.accept_application),
+    path('register_user_post/', views.register_user_post),
+    path('loginapp/', views.loginapp),
+    path('user_data_get/', views.user_data_get),
+    path('view_user_profile/',views.view_user_profile),
+    path('edit_user_profile_get/',views.edit_user_profile_get),
+    path('update_user_profile_post/',views.update_user_profile_post),
+    path('change_password_user/',views.change_password_user),
+    path('get_reviews_user/',views.get_reviews_user),
+    path('add_review_user/',views.add_review_user),
+    path('get_complaints_user/',views.get_complaints_user),
+    path('add_complaint_user/',views.add_complaint_user),
 
 ]
