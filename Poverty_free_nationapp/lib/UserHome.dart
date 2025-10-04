@@ -2,9 +2,13 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
+import 'package:poverty_free_nationapp/Notification.dart';
+import 'package:poverty_free_nationapp/ResumeUpload.dart';
 import 'package:poverty_free_nationapp/Send_complaint_user.dart';
+import 'package:poverty_free_nationapp/applied_jobs.dart';
 import 'package:poverty_free_nationapp/sent_app_review.dart';
 import 'package:poverty_free_nationapp/view_profile.dart';
+import 'package:poverty_free_nationapp/view_vacency.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserHome extends StatefulWidget {
@@ -128,10 +132,33 @@ class _UserHomeState extends State<UserHome> {
                 ),
               );
             }),
-            buildElevatedButton("Upload Resume (PDF Only)", () {}),
-            buildElevatedButton("View job vacancies and apply", () {}),
-            buildElevatedButton("View applied job vacancies and status", () {}),
-            buildElevatedButton("View notifications", () {}),
+            buildElevatedButton("Upload Resume (PDF Only)", () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const ResumeUpload(),
+                ),
+              );
+            }),
+            buildElevatedButton("View job vacancies and apply", () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const ViewVacancy(),
+                ),
+              );
+            }),
+            buildElevatedButton("View applied job vacancies and status", () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const AppliedJobs(),
+                ),
+              );
+            }),
+            buildElevatedButton("View notifications", () {
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>const UserNotifications()));
+            }),
             buildElevatedButton("View all companies", () {}),
             buildElevatedButton("View skill centers", () {}),
             buildElevatedButton("View current programs", () {}),

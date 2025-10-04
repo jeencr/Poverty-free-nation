@@ -91,5 +91,12 @@ urlpatterns = [
     path('add_review_user/',views.add_review_user),
     path('get_complaints_user/',views.get_complaints_user),
     path('add_complaint_user/',views.add_complaint_user),
+    path('get_resumes_user/',views.get_resumes_user),
+    path('upload_resume/',views.upload_resume),
+    path('vacancy_user_get/',views.vacancy_user_get),
+    path('apply_vacancy_user_get/',views.apply_vacancy_user_get),
+    path('submit_vacancy_application/',views.submit_vacancy_application),
+    path('view_applied_vacancies_user/',views.view_applied_vacancies_user),
+    path('selected_notification_user/',views.selected_notification_user),
 
 ]

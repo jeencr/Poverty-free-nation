@@ -47,6 +47,8 @@ class NormalUser(models.Model):
 class Resume(models.Model):
     NormalUser = models.ForeignKey(NormalUser, on_delete=models.CASCADE)
     resume = models.FileField(upload_to='resumes/')
+    uploaded_at = models.DateField()
+    title = models.CharField(max_length=100)
 
 
 class Program(models.Model):
@@ -86,8 +88,8 @@ class Vacancy(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField()
     requirements = models.TextField()
-    status = models.CharField(max_length=20, default='open')  # open/closed
-
+    status = models.CharField(max_length=20, default='open')
+    date = models.DateField(auto_now_add=True)
 
 class Application(models.Model):
     vacancy = models.ForeignKey(Vacancy, on_delete=models.CASCADE)

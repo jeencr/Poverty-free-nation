@@ -440,7 +440,7 @@ def view_applications_company(request,id):
 
 def accept_application(request,id):
     application = Application.objects.get(id=id)
-    application.status = 'Accepted'
+    application.status = 'Selected'
     application.save()
     messages.success(request, 'Application Accepted Successfully.')
     return redirect('/myapp/view_applications_company')
@@ -640,3 +640,74 @@ def add_complaint_user(request):
         status='pending'
     )
 
+def get_resumes_user(request):
+    resumes = Resume.objects.filter(NormalUser_id=request.POST['uid']).values()
+    print(resumes)
+    return JsonResponse(list(resumes), safe=False)
+
+def upload_resume(request):
+    uid = request.POST['uid']
+    resume = request.FILES['resume']
+    title = request.POST['title']
+    resume = Resume(NormalUser_id=uid, resume=resume,uploaded_at=datetime.today(),title=title)
+    resume.save()
+    return JsonResponse({'success': 'Resume uploaded successfully.'})
+
+def vacancy_user_get(request):
+    vacancy = Vacancy.objects.all().values()
+    return JsonResponse(list(vacancy), safe=False)
+
+
+def apply_vacancy_user_get(request):
+    uid = request.POST['uid']
+    vac_id = request.POST['vac_id']
+    print(uid)
+    print(vac_id)
+
+    vac = Vacancy.objects.get(id=vac_id)
+    vac_info = {
+        'id': vac.id,
+        'title': vac.title,
+        'description': vac.description,
+        'requirements': vac.requirements,
+        'status': vac.status,
+        'company_name': vac.company.company_name,
+        'company_email': vac.company.email,
+        'company_address': vac.company.address,
+    }
+    resumes = list(
+        Resume.objects.filter(NormalUser_id=uid)
+        .values("id", "title", "uploaded_at", "resume")
+    )
+    data = {
+        'vacancy': vac_info,
+        'resumes': resumes
+    }
+    print(data)
+
+    return JsonResponse(data, safe=True)
+
+def submit_vacancy_application(request):
+    uid = request.POST['uid']
+    vac_id = request.POST['vac_id']
+    resume_id = request.POST['resume_id']
+    application = Application(vacancy_id=vac_id, NormalUser_id=uid, Resume_id=resume_id, status='Applied',applied_at=datetime.today())
+    application.save()
+    return JsonResponse({'success': 'Application submitted successfully.'})
+
+def view_applied_vacancies_user(request):
+    uid = request.POST['uid']
+    applications = Application.objects.filter(NormalUser_id=uid).values(
+        "id", "vacancy__title",'vacancy__date',"vacancy__description","vacancy__requirements",
+        "vacancy__company__company_name","vacancy__company__email","vacancy__company__address",
+        "NormalUser_id", "Resume_id", "status", "applied_at","vacancy__status"
+    )
+    return JsonResponse(list(applications), safe=False)
+
+def selected_notification_user(request):
+    uid = request.POST['uid']
+    applications = Application.objects.filter(NormalUser_id=uid,status='Selected').values("vacancy__title",
+                                                                                          "vacancy__company__company_name",
+                                                                                          "applied_at"
+                                                                                          )
+    return JsonResponse(list(applications), safe=False)
